@@ -1,0 +1,149 @@
+\documentclass[a4paper,12pt]{paper}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{titlesec}
+\usepackage{fullpage}
+\usepackage{tikz-cd}
+\usepackage{multicol}
+\usepackage[margin=.75in]{geometry}
+\usepackage{enumitem}
+\setitemize{noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt,label=,leftmargin=1.3pc}
+\titleformat{\section}[runin]{\normalfont\bfseries}{\thesection}{0.5em}{}
+\titlespacing{\section}{0pc}{1.5ex plus .1ex minus .2ex}{1pc}
+\titleformat{\subsection}[runin]{\normalfont\bfseries}{\thesubsection}{0.7em}{}
+\titlespacing{\subsection}{0pc}{2ex plus .1ex minus .2ex}{1pc}
+\newcommand\eqn{\refstepcounter{equation}\tag{\theequation}}
+\binoppenalty=\maxdimen
+\relpenalty=\maxdimen
+\newcommand{\ul}{\ulcorner}
+\newcommand{\ur}{\urcorner}
+\newcommand{\val}[1]{\ulcorner #1 \urcorner}
+
+
+\begin{document}
+{\noindent
+	v 0.0 \\
+{\large\textbf{Completeness of Intuitionistic Propositional Calculus}} \\
+\sc{with Respect to Bi-Cartesian Closed Categories}
+}
+\\
+\setcounter{section}{-1}
+\section{Language} Fix some countable set $P$ for propositional variables. An IPC formula is defined inductively as follows
+\[ \Phi \qquad::=\qquad \bot \quad|\quad p \quad|\quad \Phi ~\Box~ \Phi \]
+where $p \in P$ and $\Box \in \{ \land , \lor , \supset \}$. We write $\top$ for $\bot \supset \bot$.
+In the rest of these notes $\varphi$, $\psi$ and $\theta$ are names for IPC formulas and $\Gamma$ denotes a finite set of them.
+
+\section{Natural Deduction} An IPC judgment is a pair consisting of a finite set of formulas and a single formula, written $\Gamma \vdash \varphi$, defined inductively as follows.
+\begin{multicols}{2}
+	\subsection*{$Axiom$}
+	\[ \over \Gamma, \varphi \vdash \varphi \]
+	\columnbreak
+	\subsection*{$Explosion$}
+	\[ \Gamma \vdash \bot \over \Gamma \vdash \varphi \]
+	\columnbreak
+\end{multicols}
+\begin{multicols}{2}
+	\subsection*{$\supset I$}
+	\[ \Gamma , \varphi \vdash \psi \over \Gamma \vdash \varphi \supset \psi \]
+	\columnbreak
+	\subsection*{$\supset E$}
+	\[ \Gamma \vdash \varphi \supset \psi \quad \Gamma \vdash \varphi \over \Gamma \vdash \psi \]
+	\columnbreak
+\end{multicols}
+\begin{multicols}{2}
+	\subsection*{$\land I$}
+	\[ \Gamma \vdash \varphi \quad \Gamma \vdash \psi \over \Gamma \vdash \varphi \land \psi \]
+	\columnbreak
+	\subsection*{$\land E$}
+	\[ {\Gamma \vdash \varphi \land \psi \over \Gamma \vdash \varphi}
+	 \qquad 
+	   {\Gamma \vdash \varphi \land \psi \over \Gamma \vdash \psi} \]
+	\columnbreak
+\end{multicols}
+\begin{multicols}{2}
+	\subsection*{$\lor I$}
+	\[ {\Gamma \vdash \varphi \over \Gamma \vdash \varphi \lor \psi}
+	 \qquad
+	   {\Gamma \vdash \psi \over \Gamma \vdash \varphi \lor \psi} \]
+	\columnbreak
+	\subsection*{$\lor E$}
+	\[ \Gamma , \varphi \vdash \theta \quad \Gamma , \psi \vdash \theta \quad \Gamma \vdash \varphi \lor \psi \over \Gamma \vdash \theta \]
+	\columnbreak
+\end{multicols}
+We write $\vdash \psi$, $\varphi \vdash \psi$ and $\Gamma, \varphi \vdash \psi$ for $\{\} \vdash \psi$, $\{\varphi\} \vdash \psi$ and $\Gamma \cup \{\varphi\} \vdash \psi$ resp.
+
+\subsection{Lemma}\label{weakening} If $\Gamma \vdash \varphi$ then $\Gamma, \psi \vdash \varphi$. (Or maybe this is trivially admissible?)
+
+\subsection{Lemma}\label{cut} If $\Gamma \vdash \varphi$ and $\varphi \vdash \psi$ then $\Gamma \vdash \psi$.
+
+\textit{Proof.} $\Gamma, \varphi \vdash \psi$ by lemma \ref{weakening}. $\Gamma \vdash \varphi \supset \psi$ by $\supset I$. $\Gamma \vdash \psi$ by $\supset E$.
+
+\subsection{Lemma}\label{context} If $\varphi \land \psi \vdash \theta$ then $\varphi, \psi \vdash \theta$.
+
+\textit{Proof.} $\varphi,\psi \vdash \varphi$ and $\varphi,\psi \vdash \psi$ by \textit{Axiom}. $\varphi,\psi \vdash \varphi \land \psi$ by $\land I$. $\varphi,\psi \vdash \theta$ by lemma \ref{cut}.
+
+\section{biCCC} A \emph{bi-Cartesian closed category} is one with all finite products, finite co-products and exponential objects.
+
+\subsection{Theorem}\label{dist} In any biCCC $\mathbf{C}$, for all objects $A$, $B$ and $C$, $A \times (B + C) \cong (A \times B) +‌(A \times C)$.
+
+\textit{Proof.} From Yoneda lemma if suffices to show that
+\[ Hom_{\mathbf{C}}(A \times (B + C), X) \cong Hom_{\mathbf{C}}((A \times B) +‌(A \times C), X) .\]
+Since $A \times (\_) \dashv (\_)^A$
+\[ Hom_{\mathbf{C}}(A \times (B + C), X) \cong Hom_{\mathbf{C}}((B + C), X^A) .\]
+Since $Hom_{\mathbf{C}}(\_, X^A) : \mathbf{C}^{op} \longrightarrow \mathbf{Set}$ is a right adjoint (of tensor?), it preserves limits. So it takes co-products of $\mathbf{C}$ to products of $\mathbf{Set}$, hence
+\[ Hom_{\mathbf{C}}((B + C), X^A) \cong Hom_\mathbf{C}(B, X^A) \times Hom_\mathbf{C}(C, X^A). \]
+Again, from $A \times (\_) \dashv (\_)^A$
+\[  Hom_\mathbf{C}(B, X^A) \times Hom_\mathbf{C}(C, X^A) \cong  Hom_\mathbf{C}((A \times B), X) \times Hom_\mathbf{C}((A \times C), X). \]
+Again from RAPL
+\[ Hom_\mathbf{C}((A \times B), X) \times Hom_\mathbf{C}((A \times C), X) \cong Hom_{\mathbf{C}}((A \times B) +‌(A \times C), X). \]
+
+
+\section{Syntactic Category} $\mathbf{S}_{IPC}$ has all IPC formulas as objects and for any $\varphi$ and $\psi$ such that $\varphi \vdash \psi$, there is a morphism $\varphi \longrightarrow \psi$.
+For all objects $\varphi$, \textit{Axiom} gives the identity morphism. For any two morphisms $\varphi \vdash \psi$ and $\psi \vdash \theta$, take the judgment $\varphi \vdash \theta$ from lemma \ref{cut} as their composition. There is at most one morphism between objects, identity and composition have their respecting properties. In fact mere existence suffices for all uniqueness properties of morphisms.
+
+\subsection{Theorem}\label{S_is_ccc} $\mathbf{S}_{IPC}$ is a biCCC.
+
+\textit{Proof.}
+\begin{itemize}
+\item $\bot$ is the initial object: For any object $\varphi$, $\bot \vdash \bot$ by \textit{Axiom} and $\bot \vdash \varphi$ by \textit{Explosion}. \\
+\item $\top$ is the terminal object: For any object $\varphi$, $\varphi,\bot \vdash \bot$ by \textit{Axiom} and $\varphi \vdash \bot \supset \bot$ by $\supset I$. \\
+\item For objects $\varphi$ and $\psi$, $\varphi \land \psi$ is their product: From $\land E$ we have $\varphi \land \psi \vdash \varphi$ and $\varphi \land \psi \vdash \psi$ for the projection morphisms. For any $\theta$ with morphisms $\theta \vdash \varphi$ and $\theta \vdash \psi$, there is a morphism $\theta \vdash \varphi \land \psi$ by $\land I$. \\
+\item For objects $\varphi$ and $\psi$, $\varphi \lor \psi$ is their co-product: From $\lor I$ we have $\varphi \vdash \varphi \lor \psi$ and $\psi \vdash \varphi \lor \psi$ for the injection morphisms. For any $\theta$ with morphisms $\varphi \vdash \theta$ and $\psi \vdash \theta$, there is a morphism $\varphi \lor \psi \vdash \theta$ by $\lor E$. \\
+\item For objects $\varphi$ and $\psi$, $\varphi \supset \psi$ is $\psi^\varphi$: From $\land E$ and $\supset E$ we have $\varphi \land (\varphi \supset \psi) \vdash \psi$ as the evaluation morphism. For any $\theta$ with a morphism $\theta \land \varphi \vdash \psi$, there is a morphism $\theta \vdash \varphi \supset \psi$ by $\supset I$.
+\end{itemize}
+
+\section{Valuation}
+A \emph{valuation} of IPC in some biCCC $\mathbf{C}$ is a biCCC morphism from $\mathbf{S}_{IPC}$ to $\mathbf{C}$, i.e. a functor $\val \_  :‌\mathbf{S}_{IPC} \longrightarrow \mathbf{C}$ such that for all $\varphi, \psi \in \mathbf{S}_{IPC}$ we have\\
+\begin{itemize}
+	\item $\val \top  = 1_{\mathbf{C}}$,\\
+	\item $\val \bot  = 0_{\mathbf{C}}$,\\
+	\item $\val{\varphi \land \psi}  = \val \varphi  \times \val \psi $,\\
+	\item $\val{\varphi \lor \psi}  = \val \varphi  + \val \psi $,\\
+	\item $\val{\varphi \supset \psi}  = \val \psi ^{\val \varphi }$.
+\end{itemize}
+
+\section{Truth}
+For some formula $\varphi$ and a finite set of formulas $\Gamma$, $\varphi$ is true in context $\Gamma$, written $\Gamma \models \varphi$, if for every biCCC $\mathbf{C}$ and any valuation $\val \_  :‌\mathbf{S}_{IPC} \longrightarrow \mathbf{C}$ there is a morphism $\prod_{\psi \in \Gamma} \val \psi  \longrightarrow \val \varphi $ in $\mathbf{C}$. We also write $\val \Gamma $ instead of $\prod_{\psi \in \Gamma}  \val \psi $ for simplicity.
+
+\section{Completeness Theorem} For any $\varphi$ and $\Gamma$, if $\Gamma \models \varphi$ then $\Gamma \vdash \varphi$. \\
+\emph{Proof.} By \ref{S_is_ccc} there is a morphism $\prod_{\psi \in \Gamma} \psi \longrightarrow \varphi$ in $\mathbf{S}_{IPC}$, so $\bigwedge_{\psi \in \Gamma} \psi \vdash \varphi$. By lemma \ref{context} $\Gamma \vdash \varphi$.
+
+\section{Soundness Theorem} For any $\varphi$ and $\Gamma$, if $\Gamma \vdash \varphi$ then $\Gamma \models \varphi$.
+
+\emph{Proof.} Let $\val \_ $ be a valuation in some biCCC $\mathbf{C}$. By induction on $\Gamma \vdash \varphi$, if it has the form
+\begin{itemize}
+\item[$(Ax)$] $\Gamma, \varphi \vdash \varphi$. Then there is a projection morphism $\val \Gamma  \times  \val \varphi  \longrightarrow  \val \varphi $ in $\mathbf{C}$.\\
+\item[$(Ex)$] $\Gamma \vdash \varphi$, assuming a $\mathbf{C}$-morph $\val \Gamma  \longrightarrow 0_\mathbf{C}$. Its composition with $0_\mathbf{C} \longrightarrow  \val \varphi $ gives a $\mathbf{C}$-morph $\val \Gamma  \longrightarrow \val \varphi $.\\
+\item[$(\supset I)$] $\Gamma \vdash \varphi \supset \psi$, assuming a $\mathbf{C}$-morph $\val \Gamma  \times \val \varphi  \longrightarrow \val \psi$. There is a transpose morph $\val \Gamma \longrightarrow \val \psi^{\val \varphi}$ in $\mathbf{C}$.\\
+\item[$(\supset E)$] $\Gamma \vdash \psi$, assuming $\mathbf{C}$-morphs $f : \val \Gamma \longrightarrow \val \psi^{\val \varphi}$ and $g : \val \Gamma \longrightarrow \val \varphi$. By universal property of product, there is a $\mathbf{C}$-morph $<f,g> :‌\val \Gamma \longrightarrow \val \psi^{\val \varphi} \times \val \varphi$. It's composition with $ev :‌\val \psi^{\val \varphi} \times \val \varphi \longrightarrow \val \psi$ is the desired morphism.\\
+\item[$(\land I)$] $\Gamma \vdash \varphi \land \psi$, assuming $\mathbf{C}$-morphs $f : \val \Gamma \longrightarrow \val \varphi$ and $g :‌\val \Gamma \longrightarrow \val \psi$. Then there is $<f,g> :‌\val \Gamma \longrightarrow \val \varphi \times \val \psi$ by the UMP of the product.\\
+\item[$(\land E_1)$] $\Gamma \vdash \varphi$, assuming a $\mathbf{C}$-morph $\val \Gamma \longrightarrow \val \varphi \times \val \psi$. Then it's composition with the left projection $\pi_1 : \val \varphi \times \val \psi \longrightarrow \val \varphi$ is the desired morphism.\\
+\item[$(\land E_2)$] $\Gamma \vdash \psi$, assuming a $\mathbf{C}$-morph $\val \Gamma \longrightarrow \val \varphi \times \val \psi$. Then it's composition with the right projection $\pi_2 : \val \varphi \times \val \psi \longrightarrow \val \psi$ is the desired morphism.\\
+\item[$(\lor I_1)$] $\Gamma \vdash \varphi \lor \psi$, assuming a $\mathbf{C}$-morph $\val \Gamma \longrightarrow \val \varphi$. Then it's composition with the left injection $i_1 : \val \varphi \longrightarrow \val \varphi +‌\val \psi$ is the desired morphism.\\
+\item[$(\lor I_2)$] $\Gamma \vdash \varphi \lor \psi$, assuming a $\mathbf{C}$-morph $\val \Gamma \longrightarrow \val \psi$. Then it's composition with the right injection $i_2 : \val \psi \longrightarrow \val \varphi +‌\val \psi$ is the desired morphism.\\
+\item[$(\lor E)$] $\Gamma \vdash \theta$, assuming $\mathbf{C}$-morphs $f ‌:\val \Gamma \times \val \varphi \longrightarrow \val \theta$, $g : \val \Gamma \times \val \psi \longrightarrow \val \theta$ and $h : \val \Gamma \longrightarrow \val \varphi + \val \psi$. UMP of product gives a morphism $<id_{\val\Gamma}, h> :‌\val \Gamma \longrightarrow \val \Gamma \times (\val \varphi +‌\val \psi)$. By theorem \ref{dist} there is a morphism $d : \val \Gamma \times (\val \varphi +‌\val \psi) \longrightarrow (\val \Gamma \times \val \varphi) +‌(\val \Gamma \times \val \psi)$. By UMP of co-product there is a morphism $j :‌(\val \Gamma \times \val \varphi) +‌(\val \Gamma \times \val \psi) \longrightarrow \val \theta$. Then $j \circ d \circ <id_{\val\Gamma}, h> :‌\val \Gamma \longrightarrow \theta$ is the desired morphism.
+\end{itemize}
+
+\end{document}
+
+b
