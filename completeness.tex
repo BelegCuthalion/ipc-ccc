@@ -22,7 +22,7 @@
 
 \begin{document}
 {\noindent
-	v 0.0 \\
+	v 0.1 \\
 {\large\textbf{Completeness of Intuitionistic Propositional Calculus}} \\
 \sc{with Respect to Bi-Cartesian Closed Categories}
 }
@@ -86,11 +86,11 @@ We write $\vdash \psi$, $\varphi \vdash \psi$ and $\Gamma, \varphi \vdash \psi$ 
 
 \subsection{Theorem}\label{dist} In any biCCC $\mathbf{C}$, for all objects $A$, $B$ and $C$, $A \times (B + C) \cong (A \times B) +‌(A \times C)$.
 
-\textit{Proof.} From Yoneda lemma if suffices to show that
+\textit{Proof.} From Yoneda lemma it suffices to show that
 \[ Hom_{\mathbf{C}}(A \times (B + C), X) \cong Hom_{\mathbf{C}}((A \times B) +‌(A \times C), X) .\]
 Since $A \times (\_) \dashv (\_)^A$
 \[ Hom_{\mathbf{C}}(A \times (B + C), X) \cong Hom_{\mathbf{C}}((B + C), X^A) .\]
-Since $Hom_{\mathbf{C}}(\_, X^A) : \mathbf{C}^{op} \longrightarrow \mathbf{Set}$ is a right adjoint (of tensor?), it preserves limits. So it takes co-products of $\mathbf{C}$ to products of $\mathbf{Set}$, hence
+Since $Hom_{\mathbf{C}}(\_, X) : \mathbf{C}^{op} \longrightarrow \mathbf{Set}$ is a right adjoint (of tensor?), it preserves limits. So it takes co-products of $\mathbf{C}$ to products of $\mathbf{Set}$, hence
 \[ Hom_{\mathbf{C}}((B + C), X^A) \cong Hom_\mathbf{C}(B, X^A) \times Hom_\mathbf{C}(C, X^A). \]
 Again, from $A \times (\_) \dashv (\_)^A$
 \[  Hom_\mathbf{C}(B, X^A) \times Hom_\mathbf{C}(C, X^A) \cong  Hom_\mathbf{C}((A \times B), X) \times Hom_\mathbf{C}((A \times C), X). \]
@@ -99,7 +99,7 @@ Again from RAPL
 
 
 \section{Syntactic Category} $\mathbf{S}_{IPC}$ has all IPC formulas as objects and for any $\varphi$ and $\psi$ such that $\varphi \vdash \psi$, there is a morphism $\varphi \longrightarrow \psi$.
-For all objects $\varphi$, \textit{Axiom} gives the identity morphism. For any two morphisms $\varphi \vdash \psi$ and $\psi \vdash \theta$, take the judgment $\varphi \vdash \theta$ from lemma \ref{cut} as their composition. There is at most one morphism between objects, identity and composition have their respecting properties. In fact mere existence suffices for all uniqueness properties of morphisms.
+For all objects $\varphi$, \textit{Axiom} gives the identity morphism. For any two morphisms $\varphi \vdash \psi$ and $\psi \vdash \theta$, take the judgment $\varphi \vdash \theta$ from lemma \ref{cut} as their composition. There is at most one morphism between any two objects, so identity and composition have their respecting properties. In fact mere existence suffices for all uniqueness properties of morphisms.
 
 \subsection{Theorem}\label{S_is_ccc} $\mathbf{S}_{IPC}$ is a biCCC.
 
@@ -141,7 +141,7 @@ For some formula $\varphi$ and a finite set of formulas $\Gamma$, $\varphi$ is t
 \item[$(\land E_2)$] $\Gamma \vdash \psi$, assuming a $\mathbf{C}$-morph $\val \Gamma \longrightarrow \val \varphi \times \val \psi$. Then it's composition with the right projection $\pi_2 : \val \varphi \times \val \psi \longrightarrow \val \psi$ is the desired morphism.\\
 \item[$(\lor I_1)$] $\Gamma \vdash \varphi \lor \psi$, assuming a $\mathbf{C}$-morph $\val \Gamma \longrightarrow \val \varphi$. Then it's composition with the left injection $i_1 : \val \varphi \longrightarrow \val \varphi +‌\val \psi$ is the desired morphism.\\
 \item[$(\lor I_2)$] $\Gamma \vdash \varphi \lor \psi$, assuming a $\mathbf{C}$-morph $\val \Gamma \longrightarrow \val \psi$. Then it's composition with the right injection $i_2 : \val \psi \longrightarrow \val \varphi +‌\val \psi$ is the desired morphism.\\
-\item[$(\lor E)$] $\Gamma \vdash \theta$, assuming $\mathbf{C}$-morphs $f ‌:\val \Gamma \times \val \varphi \longrightarrow \val \theta$, $g : \val \Gamma \times \val \psi \longrightarrow \val \theta$ and $h : \val \Gamma \longrightarrow \val \varphi + \val \psi$. UMP of product gives a morphism $<id_{\val\Gamma}, h> :‌\val \Gamma \longrightarrow \val \Gamma \times (\val \varphi +‌\val \psi)$. By theorem \ref{dist} there is a morphism $d : \val \Gamma \times (\val \varphi +‌\val \psi) \longrightarrow (\val \Gamma \times \val \varphi) +‌(\val \Gamma \times \val \psi)$. By UMP of co-product there is a morphism $j :‌(\val \Gamma \times \val \varphi) +‌(\val \Gamma \times \val \psi) \longrightarrow \val \theta$. Then $j \circ d \circ <id_{\val\Gamma}, h> :‌\val \Gamma \longrightarrow \theta$ is the desired morphism.
+\item[$(\lor E)$] $\Gamma \vdash \theta$, assuming $\mathbf{C}$-morphs $f ‌:\val \Gamma \times \val \varphi \longrightarrow \val \theta$, $g : \val \Gamma \times \val \psi \longrightarrow \val \theta$ and $h : \val \Gamma \longrightarrow \val \varphi + \val \psi$. UMP of product gives a morphism $<id_{\val\Gamma}, h> :‌\val \Gamma \longrightarrow \val \Gamma \times (\val \varphi +‌\val \psi)$. By theorem \ref{dist} there is a morphism $d : \val \Gamma \times (\val \varphi +‌\val \psi) \longrightarrow (\val \Gamma \times \val \varphi) +‌(\val \Gamma \times \val \psi)$. By UMP of co-product there is a morphism $(f, g) :‌(\val \Gamma \times \val \varphi) +‌(\val \Gamma \times \val \psi) \longrightarrow \val \theta$. Then $(f, g) \circ d \circ <id_{\val\Gamma}, h> :‌\val \Gamma \longrightarrow \val \theta$ is the desired morphism.
 \end{itemize}
 
 \end{document}
